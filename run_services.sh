@@ -1,9 +1,10 @@
 set -e
 
-cd marketplace
+# todo: test with mypy, add it to docker containers too
+cd recommendations
 bash run.sh
 
 cd ..
 
-cd recommendations
+cd marketplace
 bash run.sh

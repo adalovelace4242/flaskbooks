@@ -29,6 +29,7 @@ docker push $USERNAME/$IMAGE:$VERSION
 IMAGE=recommendations
 
 # push it
+# todo: don't push images with tls certificates inside into public repositories
 docker push $USERNAME/$IMAGE:latest
 docker push $USERNAME/$IMAGE:$VERSION
 

@@ -2,10 +2,11 @@ import os
 from concurrent import futures
 import random
 from signal import signal, SIGTERM
-
-import grpc
+from grpc import server as grpc_server, ServicerContext, StatusCode
 
 from data import books_by_category
+
+# todo: try use https://grpc.github.io/grpc/python/grpc.html#runtime-protobuf-parsing
 from recommendations_pb2 import (
     RecommendationResponse, RecommendationRequest,
 )
@@ -18,9 +19,10 @@ grpc_port = os.getenv("GRPC_PORT", "50051")
 class RecommendationService(
     recommendations_pb2_grpc.RecommendationsServicer
 ):
-    def Recommend(self, request: RecommendationRequest, context: grpc.ServicerContext):
+
+    def Recommend(self, request: RecommendationRequest, context: ServicerContext):
         if request.category not in books_by_category:
-            context.abort(grpc.StatusCode.NOT_FOUND, "Category not found")
+            context.abort(StatusCode.NOT_FOUND, "Category not found")
 
         books_for_result = books_by_category[request.category]
         num_results = min(request.max_results, len(books_for_result))
@@ -31,7 +33,7 @@ class RecommendationService(
 
 def serve():
     threadpool = futures.ThreadPoolExecutor(max_workers=10)
-    server = grpc.server(threadpool)
+    server = grpc_server(threadpool)
     recommendations_pb2_grpc.add_RecommendationsServicer_to_server(RecommendationService(), server)
     server.add_insecure_port(f"[::]:{grpc_port}")
     server.start()

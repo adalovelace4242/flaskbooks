@@ -43,3 +43,4 @@ echo $new_version >| VERSION
 
 git add -A
 git commit -m "next version will be $VERSION"
+git push

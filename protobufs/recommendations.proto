@@ -1,4 +1,5 @@
 syntax = "proto3";
+//Todo add versioning
 
 enum BookCategory {
     MYSTERY = 0;

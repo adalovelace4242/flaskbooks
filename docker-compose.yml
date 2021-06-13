@@ -7,7 +7,7 @@ services:
 #      dockerfile: marketplace/Dockerfile
     environment:
       RECOMMENDATIONS_HOST: recommendations
-    image: adalovelace4242/flaskbooks/marketplace
+    image: adalovelace4242/flaskbooks/marketplace:latest
     networks:
       - microservices
     ports:
@@ -19,7 +19,7 @@ services:
 #      dockerfile: recommendations/Dockerfile
     environment:
       GRPC_PORT: 50051
-    image: adalovelace4242/flaskbooks/recommendations
+    image: adalovelace4242/flaskbooks/recommendations:latest
     networks:
       - microservices
 
